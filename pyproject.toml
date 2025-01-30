@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "negatives-classifier"
+version = "0.1.0"
+description = "Used to classify and catalog digitalized negatives!"
+authors = ["electrototo <cristobal@liendo.net>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
