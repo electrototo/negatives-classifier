@@ -1,0 +1,6 @@
+
+libdarknet.a
+libdarknet.so
+data/
+__pycache__
+classification.txt
