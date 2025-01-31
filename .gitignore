@@ -4,3 +4,4 @@ libdarknet.so
 data/
 __pycache__
 *.txt
+yolov5s.pt

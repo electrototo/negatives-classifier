@@ -12,6 +12,7 @@ from PIL import Image, ImageFont, ImageDraw
 
 ap = argparse.ArgumentParser()
 ap.add_argument('-s', '--skip', help='I', action='store_true')
+ap.add_argument('-f', '--file', required=True, help='path to the text file containing the classification data')
 
 args = vars(ap.parse_args())
 
@@ -20,7 +21,7 @@ def create_categories_and_data(save=False):
     categories = {}
     data = {}
 
-    with open('classification.txt', 'r') as f:
+    with open(args['file'], 'r') as f:
         for line in f.readlines():
             parsed = json.loads(line)
 
@@ -28,7 +29,7 @@ def create_categories_and_data(save=False):
             data[parsed['file']] = parsed['classification']
 
             for entry in parsed['classification']:
-                label = entry[0]
+                label = entry['name']
 
                 if label not in categories:
                     categories[label] = []
@@ -111,13 +112,13 @@ while True:
     image = np.array(image_pil)
 
     if show_bbx:
-        bounding_boxes = list(map(lambda x: x[2], filter(lambda x: x[0] == selected_category, current_data)))
+        category_bbx = list(filter(lambda x: x['name'] == selected_category, current_data))
 
-        for coords in bounding_boxes:
-            bbx_left = int(coords[0] - (coords[2] / 2)) // 6
-            bbx_top = int(coords[1] - (coords[3] / 2)) // 6
-            bbx_right = bbx_left + int(coords[2] / 6)
-            bbx_bottom = bbx_top + int(coords[3] / 6)
+        for bbx in category_bbx:
+            bbx_left = int(bbx['xmin'] / 6)
+            bbx_top = int(bbx['ymin'] / 6)
+            bbx_right = int(bbx['xmax'] / 6)
+            bbx_bottom = int(bbx['ymax'] / 6)
 
             image = cv2.rectangle(image, (bbx_left, bbx_top), (bbx_right, bbx_bottom), (0, 255, 0), 2)
 
