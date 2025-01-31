@@ -37,6 +37,7 @@ for entry in data:
         y = int(coords[1] - (coords[3] / 2))
 
         image = cv2.rectangle(image, (x, y), (x + int(coords[2]), y + int(coords[3])), (0, 255, 0), 5)
+        image = cv2.putText(image, object[0], (x, y - 10), cv2.FONT_HERSHEY_COMPLEX, 6, (0, 0, 255), 5, cv2.LINE_AA)
 
     # width / height
     w = image.shape[1]
